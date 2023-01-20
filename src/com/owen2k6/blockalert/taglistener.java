@@ -1,5 +1,6 @@
 package com.owen2k6.blockalert;
 
+import com.johnymuffin.discordcore.DiscordCore;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,22 +10,28 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class taglistener implements Listener {
 
-	public BlockAlert plugin;
+	BlockAlert plugin;
+
+	BAConfig baConfig;
+	Logger log;
+	DiscordCore discordCore;
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		plugin.log.info("BlockBreakEvent triggered");
-		plugin.log.info(event.getBlock().getType().toString());
-		plugin.log.info(plugin.baConfig.getTaggedBlocks().toString());
-		if (plugin.baConfig.getTaggedBlocks().contains(event.getBlock().getType().toString())) {
-			if (plugin.baConfig.getConfigBoolean("is-discord-enabled")) {
+		this.log = Bukkit.getServer().getLogger();
+		log.info("BlockBreakEvent triggered");
+		log.info(event.getBlock().getType().toString());
+		log.info(baConfig.getTaggedBlocks().toString());
+		if (baConfig.getTaggedBlocks().contains(event.getBlock().getType().toString())) {
+			if (baConfig.getConfigBoolean("is-discord-enabled")) {
 				try {
-					plugin.discordCore.getDiscordBot().discordSendToChannel(plugin.baConfig.getConfigString("discord-channel-id"), "BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getLocation().toString());
+					discordCore.getDiscordBot().discordSendToChannel(baConfig.getConfigString("discord-channel-id"), "BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getLocation().toString());
 				} catch (RuntimeException exception) {
-					plugin.log.info("An exception occurred when sending a message to Discord.");
+					log.info("An exception occurred when sending a message to Discord.");
 					exception.printStackTrace();
 				}
 			}
