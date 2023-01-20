@@ -10,8 +10,8 @@ import java.util.ListIterator;
 
 public class BAConfig extends Configuration {
 
-	private BlockAlert plugin;
-	private static BlockAlert singleton;
+	public BlockAlert plugin;
+	public static BlockAlert singleton;
 
 
 	public BAConfig(File settingsFile) {

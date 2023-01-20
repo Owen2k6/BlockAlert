@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -20,13 +21,32 @@ public class taglistener implements Listener {
 	public Logger log;
 	public DiscordCore discordCore;
 
+	public List<String> tagblock = baConfig.getTaggedBlocks();
+
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
 		this.log = Bukkit.getServer().getLogger();
 		log.info("BlockBreakEvent triggered");
 		log.info(event.getBlock().getType().toString());
-		log.info(baConfig.getTaggedBlocks().toString());
-		if (baConfig.getTaggedBlocks().contains(event.getBlock().getType().toString())) {
+		try {
+			log.info(tagblock.toString());
+		}catch(Exception e){
+			log.severe("tagblock is null");
+			log.severe("initialising default setting (diamond, iron, gold)");
+			tagblock.clear();
+			tagblock.add("57");
+			tagblock.add("42");
+			tagblock.add("41");
+		}
+		//attempt again
+		try {
+			log.info(tagblock.toString());
+		}catch(Exception e){
+			log.severe("tagblock is null again");
+			log.severe("There was an issue with BlockAlert. Please contact the developer.");
+			return;
+		}
+		if (tagblock.contains(event.getBlock().getType().toString())) {
 			if (baConfig.getConfigBoolean("is-discord-enabled")) {
 				try {
 					discordCore.getDiscordBot().discordSendToChannel(baConfig.getConfigString("discord-channel-id"), "BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getLocation().toString());
