@@ -1,0 +1,24 @@
+  name: BlockAlert
+  main: com.owen2k6.blockalert.BlockAlert
+  version: 1.0.0
+
+  permissions:
+    blockalert.alert:
+      description: Allows the player to receive alerts when a tagged block is broken or placed
+      default: op
+    blockalert.ignorealert:
+      description: Allows the player to ignore alerts when a tagged block is broken or placed
+      default: op
+    blockalert.exempt:
+      description: Allows the player to bypass the block alert system
+      default: op
+    blockalert.cmds:
+      description: Allows the player to reload the config file
+      default: op
+
+  commands:
+    blockalert:
+        description: Allows the player to reload the config file
+        usage: /blockalert (reload | help | version)
+        permission: blockalert.cmds
+        aliases: [ba]
