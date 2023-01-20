@@ -3,6 +3,7 @@ package com.owen2k6.blockalert;
 import com.johnymuffin.discordcore.DiscordCore;
 import jdk.nashorn.internal.ir.Block;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,6 +33,8 @@ public class taglistener implements Listener {
 		List<String> tagblock = baConfig.getTaggedBlocks();
 		log.info("BlockBreakEvent triggered");
 		log.info(String.valueOf(event.getBlock().getType().getId()));
+		log.info(String.valueOf(baConfig.getConfigBoolean("is-discord-enabled")));
+		log.info(String.valueOf(baConfig.getConfigString("discord-channel-id")));
 		try {
 			log.info(tagblock.toString());
 		}catch(Exception e){
@@ -61,7 +64,7 @@ public class taglistener implements Listener {
 			}
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (player.hasPermission("blockalert.alert")) {
-					player.sendMessage("BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getLocation().toString());
+					player.sendMessage(ChatColor.RED +"BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getX()+" "+event.getBlock().getY()+" "+event.getBlock().getZ() + " in world " + event.getBlock().getWorld().getName());
 				}
 			}
 			plugin.log.info("BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getX()+" "+event.getBlock().getY()+" "+event.getBlock().getZ() + " in world " + event.getBlock().getWorld().getName());
