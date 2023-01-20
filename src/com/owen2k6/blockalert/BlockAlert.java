@@ -11,9 +11,9 @@ import java.io.File;
 import java.util.logging.Logger;
 
 public class BlockAlert extends JavaPlugin {
-	Logger log;
+	public Logger log;
 
-	BAConfig baConfig;
+	public BAConfig baConfig;
 
 	@Override
 	public void onEnable() {

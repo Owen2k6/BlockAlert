@@ -14,11 +14,11 @@ import java.util.logging.Logger;
 
 public class taglistener implements Listener {
 
-	BlockAlert plugin;
+	public BlockAlert plugin;
 
-	BAConfig baConfig;
-	Logger log;
-	DiscordCore discordCore;
+	public BAConfig baConfig;
+	public Logger log;
+	public DiscordCore discordCore;
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
