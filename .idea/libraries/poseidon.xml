@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="poseidon">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/poseidon.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/libs/poseidon.jar!/" />
+    </SOURCES>
+  </library>
+</component>
