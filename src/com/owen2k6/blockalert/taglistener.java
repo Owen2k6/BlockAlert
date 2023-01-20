@@ -1,20 +1,16 @@
 package com.owen2k6.blockalert;
 
 import com.johnymuffin.discordcore.DiscordCore;
-import jdk.nashorn.internal.ir.Block;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import com.owen2k6.blockalert.BAConfig;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 public class taglistener implements Listener {
@@ -25,16 +21,19 @@ public class taglistener implements Listener {
 	public Logger log;
 	public DiscordCore discordCore;
 
+	public taglistener(BlockAlert plugin) {
+		this.plugin = plugin;
+		this.log = this.plugin.log;
+		if (this.plugin.baConfig == null) throw new RuntimeException("BlockAlert config is null?!?!?!?");
+		this.baConfig = this.plugin.baConfig;
+		this.discordCore = new DiscordCore();
+	}
+
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		this.log = Bukkit.getServer().getLogger();
-		this.plugin = new BlockAlert();
-		baConfig = new BAConfig(new File(plugin.getDataFolder(), "config.yml"));
+		if (baConfig == null) throw new RuntimeException("baConfig == null for no fuckin reason");
 		List<Integer> tagblock = baConfig.getTaggedBlocks();
-		log.info("BlockBreakEvent triggered");
-		log.info(String.valueOf(event.getBlock().getType().getId()));
-		log.info(String.valueOf(baConfig.getConfigBoolean("is-discord-enabled")));
-		log.info(String.valueOf(baConfig.getConfigString("discord-channel-id")));
+		log.info("Block destroyed: " + event.getBlock().getType().getId());
 		try {
 			log.info(tagblock.toString());
 		}catch(Exception e){
@@ -54,7 +53,7 @@ public class taglistener implements Listener {
 			return;
 		}
 		if (tagblock.contains(event.getBlock().getTypeId())) {
-			if (baConfig.getConfigBoolean("is-discord-enabled")) {
+			if (baConfig.getConfigBoolean("enable-discord-features")) {
 				try {
 					discordCore.getDiscordBot().discordSendToChannel(baConfig.getConfigString("discord-channel-id"), "BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getLocation().toString());
 				} catch (RuntimeException exception) {

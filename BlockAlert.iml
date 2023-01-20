@@ -20,6 +20,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="libs" level="project" />
+    <orderEntry type="library" name="poseidon" level="project" />
+    <orderEntry type="library" name="DiscordCore" level="project" />
   </component>
 </module>

@@ -19,10 +19,11 @@ public class BlockAlert extends JavaPlugin {
 	public void onEnable() {
 		this.log = this.getServer().getLogger();
 		this.log.info("[BlockAlert] BlockAlert has been enabled!");
-		getServer().getPluginManager().registerEvents(new taglistener(), this);
 		baConfig = new BAConfig(new File(this.getDataFolder(), "config.yml"));
+		getServer().getPluginManager().registerEvents(new taglistener(this), this);
 
-
+		log.info("Discord features enabled: " + baConfig.getConfigBoolean("enable-discord-features"));
+		log.info("Discord Channel ID: " + baConfig.getConfigString("discord-channel-id"));
 	}
 
 	@Override
