@@ -12,11 +12,13 @@ import java.util.Objects;
 
 public class taglistener implements Listener {
 
-	private BlockAlert plugin;
-
+	public BlockAlert plugin;
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
+		plugin.log.info("BlockBreakEvent triggered");
+		plugin.log.info(event.getBlock().getType().toString());
+		plugin.log.info(plugin.baConfig.getTaggedBlocks().toString());
 		if (plugin.baConfig.getTaggedBlocks().contains(event.getBlock().getType().toString())) {
 			if (plugin.baConfig.getConfigBoolean("is-discord-enabled")) {
 				try {
