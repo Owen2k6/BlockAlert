@@ -35,12 +35,12 @@ public class BAConfig extends Configuration {
 
 	}
 
-	public List<String> getTaggedBlocks() {
+	public List<Integer> getTaggedBlocks() {
 		String key = "tagged-blocks";
-		if (this.getStringList(key, null) == null || this.getStringList(key, null).isEmpty()) {
-			this.setProperty(key, Arrays.asList("57", "42", "41"));
+		if (this.getIntList(key, null) == null || this.getIntList(key, null).isEmpty()) {
+			this.setProperty(key, Arrays.asList(57, 42, 41));
 		}
-		return this.getStringList(key, null);
+		return this.getIntList(key, null);
 
 	}
 

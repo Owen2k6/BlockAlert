@@ -30,7 +30,7 @@ public class taglistener implements Listener {
 		this.log = Bukkit.getServer().getLogger();
 		this.plugin = new BlockAlert();
 		baConfig = new BAConfig(new File(plugin.getDataFolder(), "config.yml"));
-		List<String> tagblock = baConfig.getTaggedBlocks();
+		List<Integer> tagblock = baConfig.getTaggedBlocks();
 		log.info("BlockBreakEvent triggered");
 		log.info(String.valueOf(event.getBlock().getType().getId()));
 		log.info(String.valueOf(baConfig.getConfigBoolean("is-discord-enabled")));
@@ -41,9 +41,9 @@ public class taglistener implements Listener {
 			log.severe("tagblock is null");
 			log.severe("initialising default setting (diamond, iron, gold)");
 			tagblock.clear();
-			tagblock.add("57");
-			tagblock.add("42");
-			tagblock.add("41");
+			tagblock.add(57);
+			tagblock.add(42);
+			tagblock.add(41);
 		}
 		//attempt again
 		try {
@@ -53,7 +53,7 @@ public class taglistener implements Listener {
 			log.severe("There was an issue with BlockAlert. Please contact the developer.");
 			return;
 		}
-		if (tagblock.contains(String.valueOf(event.getBlock().getTypeId()))) {
+		if (tagblock.contains(event.getBlock().getTypeId())) {
 			if (baConfig.getConfigBoolean("is-discord-enabled")) {
 				try {
 					discordCore.getDiscordBot().discordSendToChannel(baConfig.getConfigString("discord-channel-id"), "BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getLocation().toString());
