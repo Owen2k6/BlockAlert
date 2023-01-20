@@ -1,13 +1,16 @@
 package com.owen2k6.blockalert;
 
 import com.johnymuffin.discordcore.DiscordCore;
+import jdk.nashorn.internal.ir.Block;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import com.owen2k6.blockalert.BAConfig;
 
+import java.io.File;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
@@ -21,13 +24,14 @@ public class taglistener implements Listener {
 	public Logger log;
 	public DiscordCore discordCore;
 
-	public List<String> tagblock = baConfig.getTaggedBlocks();
-
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
 		this.log = Bukkit.getServer().getLogger();
+		this.plugin = new BlockAlert();
+		baConfig = new BAConfig(new File(plugin.getDataFolder(), "config.yml"));
+		List<String> tagblock = baConfig.getTaggedBlocks();
 		log.info("BlockBreakEvent triggered");
-		log.info(event.getBlock().getType().toString());
+		log.info(String.valueOf(event.getBlock().getType().getId()));
 		try {
 			log.info(tagblock.toString());
 		}catch(Exception e){
@@ -46,7 +50,7 @@ public class taglistener implements Listener {
 			log.severe("There was an issue with BlockAlert. Please contact the developer.");
 			return;
 		}
-		if (tagblock.contains(event.getBlock().getType().toString())) {
+		if (tagblock.contains(String.valueOf(event.getBlock().getTypeId()))) {
 			if (baConfig.getConfigBoolean("is-discord-enabled")) {
 				try {
 					discordCore.getDiscordBot().discordSendToChannel(baConfig.getConfigString("discord-channel-id"), "BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getLocation().toString());
@@ -60,7 +64,7 @@ public class taglistener implements Listener {
 					player.sendMessage("BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getLocation().toString());
 				}
 			}
-			plugin.log.info("BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getLocation().toString());
+			plugin.log.info("BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getX()+" "+event.getBlock().getY()+" "+event.getBlock().getZ() + " in world " + event.getBlock().getWorld().getName());
 		}
 	}
 
