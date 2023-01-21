@@ -1,6 +1,9 @@
   name: BlockAlert
   main: com.owen2k6.blockalert.BlockAlert
   version: 1.0.0
+  softdepend:
+    - DiscordCore
+  author: Owen2k6
 
   permissions:
     blockalert.alert:
@@ -15,10 +18,13 @@
     blockalert.cmds:
       description: Allows the player to reload the config file
       default: op
+    blockalert.reload:
+      description: Allows the player to reload the config file
+      default: op
 
   commands:
     blockalert:
         description: Allows the player to reload the config file
-        usage: /blockalert (reload | help | version)
+        usage: /blockalert (reload | help | version | info | remove | ignore | receive)
         permission: blockalert.cmds
         aliases: [ba]

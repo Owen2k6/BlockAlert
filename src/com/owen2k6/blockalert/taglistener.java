@@ -7,9 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-
-import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -33,40 +30,20 @@ public class taglistener implements Listener {
 	public void onBlockBreak(BlockBreakEvent event) {
 		if (baConfig == null) throw new RuntimeException("baConfig == null for no fuckin reason");
 		List<Integer> tagblock = baConfig.getTaggedBlocks();
-		log.info("Block destroyed: " + event.getBlock().getType().getId());
-		try {
-			log.info(tagblock.toString());
-		}catch(Exception e){
-			log.severe("tagblock is null");
-			log.severe("initialising default setting (diamond, iron, gold)");
-			tagblock.clear();
-			tagblock.add(57);
-			tagblock.add(42);
-			tagblock.add(41);
-		}
-		//attempt again
-		try {
-			log.info(tagblock.toString());
-		}catch(Exception e){
-			log.severe("tagblock is null again");
-			log.severe("There was an issue with BlockAlert. Please contact the developer.");
-			return;
-		}
-		if (tagblock.contains(event.getBlock().getTypeId())) {
+		if (tagblock.contains(event.getBlock().getTypeId()) && !event.getPlayer().hasPermission("blockalert.exempt")) {
 			if (baConfig.getConfigBoolean("enable-discord-features")) {
 				try {
-					discordCore.getDiscordBot().discordSendToChannel(baConfig.getConfigString("discord-channel-id"), "BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getLocation().toString());
+					discordCore.getDiscordBot().discordSendToChannel(baConfig.getConfigString("discord-channel-id"), "BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getX()+" "+event.getBlock().getY()+" "+event.getBlock().getZ() + " in world " + event.getBlock().getWorld().getName());
 				} catch (RuntimeException exception) {
 					log.info("An exception occurred when sending a message to Discord.");
 					exception.printStackTrace();
 				}
 			}
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (player.hasPermission("blockalert.alert")) {
+				if (player.hasPermission("blockalert.alert") && !plugin.ignored.contains(player.getName())) {
 					player.sendMessage(ChatColor.RED +"BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getX()+" "+event.getBlock().getY()+" "+event.getBlock().getZ() + " in world " + event.getBlock().getWorld().getName());
 				}
 			}
-			plugin.log.info("BlockAlert: " + event.getPlayer().getName() + " has broken a " + event.getBlock().getType().toString() + " at " + event.getBlock().getX()+" "+event.getBlock().getY()+" "+event.getBlock().getZ() + " in world " + event.getBlock().getWorld().getName());
 		}
 	}
 
