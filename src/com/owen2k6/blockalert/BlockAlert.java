@@ -5,8 +5,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.annotation.Nonnull;
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.logging.Logger;
 
 public class BlockAlert extends JavaPlugin {
@@ -14,11 +19,11 @@ public class BlockAlert extends JavaPlugin {
 
 	public BAConfig baConfig;
 
-	public List<String> ignored;
+
+	ArrayList<String> ignored = new ArrayList<String>();
 
 	@Override
 	public void onEnable() {
-		ignored.add("a"); //To avoid null pointers. this has been added.
 		this.log = this.getServer().getLogger();
 		this.log.info("[BlockAlert] BlockAlert has been enabled!");
 		baConfig = new BAConfig(new File(this.getDataFolder(), "config.yml"));
@@ -72,7 +77,6 @@ public class BlockAlert extends JavaPlugin {
 				}
 				sender.sendMessage(ChatColor.RED + "You will not receive alerts until the server restarts.");
 				sender.sendMessage(ChatColor.RED + "You can re-enable alerts by running /blockalert receive");
-				ignored.add(sender.getName());
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("receive")) {
