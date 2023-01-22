@@ -20,7 +20,7 @@ public class BlockAlert extends JavaPlugin {
 	public BAConfig baConfig;
 
 
-	ArrayList<String> ignored = new ArrayList<String>();
+	ArrayList<String> ignored = new ArrayList<>();
 
 	@Override
 	public void onEnable() {
