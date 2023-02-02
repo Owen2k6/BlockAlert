@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.util.config.Configuration;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
@@ -28,22 +29,30 @@ public class BAConfig extends Configuration {
 		generateConfigOption("Discord-Requirements", "Requires discordcore and the channel must be where the bot can talk!");
 		generateConfigOption("is-discord-enabled", false);
 		generateConfigOption("discord-channel-id", "enter your channel id here");
+		generateConfigOption("allow-ignore-alerts", false);
+		generateConfigOption("temp-ignore-only", false);
 		generateConfigOption("-", "-");
 		generateConfigOption("Tag-Info", "write the Material ID of the blocks you want to be alerted on destroy.");
 		generateConfigOption("Tag-Info", "By default, Diamond, Iron and Gold are tagged.");
 		getTaggedBlocks(); //Because for some reason it's a deviant fuck that decided it's not generating normally.
-
+		getTaggedIDs();
 	}
 
-	public List<Integer> getTaggedBlocks() {
+	public List<String> getTaggedBlocks() {
 		String key = "tagged-blocks";
+		if (this.getStringList(key, null) == null || this.getStringList(key, null).isEmpty()) {
+			this.setProperty(key, new ArrayList<>());
+		}
+		return this.getStringList(key, new ArrayList<>());
+	}
+
+	public List<Integer> getTaggedIDs() {
+		String key = "tagged-ids";
 		if (this.getIntList(key, null) == null || this.getIntList(key, null).isEmpty()) {
 			this.setProperty(key, Arrays.asList(57, 42, 41));
 		}
-		return this.getIntList(key, null);
-
+		return this.getIntList(key, Arrays.asList(57, 42, 41));
 	}
-
 
 	public void generateConfigOption(String key, Object defaultValue) {
 		if (this.getProperty(key) == null) {
@@ -104,7 +113,6 @@ public class BAConfig extends Configuration {
 		this.setProperty(newKey, value);
 		this.removeProperty(oldKey);
 		return true;
-
 	}
 
 
