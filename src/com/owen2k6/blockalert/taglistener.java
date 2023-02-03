@@ -1,6 +1,5 @@
 package com.owen2k6.blockalert;
 
-import com.johnymuffin.discordcore.DiscordBot;
 import com.johnymuffin.discordcore.DiscordCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,14 +11,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import com.owen2k6.blockalert.BAConfig;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.io.File;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 public class taglistener implements Listener {
@@ -99,8 +94,10 @@ public class taglistener implements Listener {
 
 			baConfig.setProperty("tagged-blocks", tagblock);
 			baConfig.save();
-			if (isDiscordEnabled) sendDiscordMsg("BlockAlert: " + event.getPlayer().getName() + " has " + (tagblock.contains(blockLocSerial) ? "tagged" : "untagged") + " a " + block.getType().toString() + " @ " + getFriendlyLocation(blockLoc));
-			event.getPlayer().sendMessage(ChatColor.GREEN + "BlockAlert: " + (tagblock.contains(blockLocSerial) ? "Tagged" : "Untagged") + " block at " + getFriendlyLocation(blockLoc));
+			//This is unessasary since this is not a required thing for staff to know. Moving the log to the console seems more practical.
+			//if (isDiscordEnabled) sendDiscordMsg("BlockAlert: " + event.getPlayer().getName() + " has " + (tagblock.contains(blockLocSerial) ? "tagged" : "untagged") + " a " + block.getType().toString() + " @ " + getFriendlyLocation(blockLoc));
+			//event.getPlayer().sendMessage(ChatColor.GREEN + "BlockAlert: " + (tagblock.contains(blockLocSerial) ? "Tagged" : "Untagged") + " block at " + getFriendlyLocation(blockLoc));
+			plugin.log.info("BlockAlert: " + event.getPlayer().getName() + " has " + (tagblock.contains(blockLocSerial) ? "tagged" : "untagged") + " a " + block.getType().toString() + " @ " + getFriendlyLocation(blockLoc));
 		}
 	}
 
