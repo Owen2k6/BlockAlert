@@ -1,12 +1,15 @@
 <component name="libraryTable">
   <library name="libs">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/DiscordCore.jar!/" />
-      <root url="jar://$PROJECT_DIR$/libs/poseidon.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GoplexMC-PL/libs" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/../../GoplexMC-PL/libs/commons-codec-1.15/apidocs" />
+    </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/libs/poseidon.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../GoplexMC-PL/libs" />
     </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/../../GoplexMC-PL/libs" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../GoplexMC-PL/libs" recursive="false" type="SOURCES" />
   </library>
 </component>
